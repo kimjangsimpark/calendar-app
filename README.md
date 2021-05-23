@@ -1,11 +1,11 @@
 # Calendar-frontend
 
-#Installation
+# Installation
 ```bash
 $ npm install
 ```
 
-#Running the app
+# Running the app
 How to start next.js dev server (watch)
 ```bash
 # dev
