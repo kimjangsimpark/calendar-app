@@ -5,6 +5,7 @@
 // import { User } from 'path/to/interfaces';
 
 export type User = {
-  id: number
-  name: string
-}
+  isLoggedIn: boolean;
+  id?: string;
+  name?: string;
+};
