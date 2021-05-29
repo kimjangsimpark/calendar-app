@@ -22,6 +22,7 @@ const authReducer = (state: User, action: Action): User => {
   switch (action.type) {
     case 'LOGIN':
       // @todo 로그인 API 호출 (네스트 서버로)
+      console.log(`i'm reducer`, action);
       if (
         action.id === dummyUserInformation.id &&
         action.password === dummyUserInformation.password
