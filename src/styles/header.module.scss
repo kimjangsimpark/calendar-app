@@ -3,28 +3,39 @@ header.mainHeader {
   height: 3.5rem;
   display: flex;
   align-items: center;
-  flex-direction: row-reverse;
   padding: {
-    left: 2rem;
-    right: 2rem;
+    left: 1.125rem;
+    right: 1.125rem;
   }
 }
 
-nav.headerNavigation {
+aside.headerToolbar {
   display: flex;
-  a {
-    display: block;
-    padding: {
-      left: 0.875rem;
-      top: 0.5rem;
-      right: 0.875rem;
-      bottom: 0.5rem;
+  justify-content: space-between;
+  width: 100%;
+
+  .yearMonthWrapper {
+    display: flex;
+
+    div {
+      margin-right: 0.3125rem;
     }
-    margin-left: 1rem;
+  }
+
+  .calendarControllerWrapper {
+    display: flex;
+
+    div {
+      margin-left: 0.3125rem;
+    }
   }
 
   .login {
     border: 1px solid #8d8d8d;
     border-radius: 0.25rem;
+  }
+
+  .logoutButton {
+    padding: 0.5rem;
   }
 }

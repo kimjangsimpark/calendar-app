@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react';
-import Link from 'next/link';
 import Head from 'next/head';
 import { User } from '@/interfaces';
 import { useAuthState } from '@/contexts/auth.context';
@@ -22,24 +21,22 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <header className={headerStyles.mainHeader}>
-        <nav className={headerStyles.headerNavigation}>
-          <Link href="/">
-            <a>Ssabal juck</a>
-          </Link>
-          <Link href="/">
-            <a>Dummy Menu</a>
-          </Link>
-          <Link href="/">
-            <a>Home</a>
-          </Link>
+        <aside className={headerStyles.headerToolbar}>
           {authState.isLoggedIn ? (
-            <a className={headerStyles.logout}>Logout</a>
-          ) : (
-            <Link href="/auth/login">
-              <a className={headerStyles.login}>Login</a>
-            </Link>
-          )}
-        </nav>
+            // @todo 달력 컨트롤 툴바
+            <>
+              <div className={headerStyles.yearMonthWrapper}>
+                <div>2021</div>
+                <div>06</div>
+              </div>
+              <div className={headerStyles.calendarControllerWrapper}>
+                <div>prev</div>
+                <div>today</div>
+                <div>next</div>
+              </div>
+            </>
+          ) : null}
+        </aside>
       </header>
       {children}
     </div>
