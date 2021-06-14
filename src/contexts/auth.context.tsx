@@ -1,105 +1,100 @@
-import React, { createContext, Dispatch, useReducer, useContext } from 'react';
-import { User } from '@/interfaces/index';
+import { createContext, useReducer, useContext } from 'react';
 
-export const AuthContext = createContext<User | undefined>(undefined);
+// context 에서 사용 할 기본 상태
+const initialState = {
+  user: {
+    loading: false,
+    data: null,
+    error: null,
+  },
+};
+// 로딩중일 때 바뀔 상태 객체
+const loadingState = {
+  loading: true,
+  data: null,
+  error: null,
+};
+// 성공했을 때의 상태 만들어주는 함수
+const success = (data) => ({
+  loading: false,
+  data,
+  error: null,
+});
+// 실패했을 때의 상태 만들어주는 함수
+const error = (error) => ({
+  loading: false,
+  data: null,
+  error: error,
+});
 
-type Action =
-  | { type: 'LOGIN'; id: string; password: string }
-  | { type: 'GET_USER'; accessToken: string }
-  | { type: 'LOGOUT'; accessToken: string };
-
-type AuthDispatch = Dispatch<Action>;
-const AuthDispatchContext = createContext<AuthDispatch | undefined>(undefined);
-
-const authReducer = (state: User, action: Action): User => {
-  const dummyUserInformation = {
-    id: 'test',
-    password: '1234',
-    name: '심익현',
-    accessToken: 'aaa.bbb.ccc',
-  };
-
+const userReducer = (state, action) => {
+  console.log('action type', action.type);
   switch (action.type) {
-    case 'LOGIN':
-      // @todo 로그인 API 호출 (네스트 서버로)
-      console.log(`i'm reducer`, action);
-      if (
-        action.id === dummyUserInformation.id &&
-        action.password === dummyUserInformation.password
-      ) {
-        return {
-          ...state,
-          isLoggedIn: true,
-          id: dummyUserInformation.id,
-          name: dummyUserInformation.name,
-        };
-      }
-
-      return {
-        isLoggedIn: false,
-      };
     case 'GET_USER':
-      // @todo JWT로 회원정보 받아오기
-      if (
-        state.isLoggedIn &&
-        action.accessToken === dummyUserInformation.accessToken
-      ) {
-        return {
-          ...state,
-          id: dummyUserInformation.id,
-          name: dummyUserInformation.name,
-        };
-      }
-
-      return {
-        isLoggedIn: false,
-      };
-    case 'LOGOUT':
       return {
         ...state,
-        isLoggedIn: false,
-        id: '',
-        name: '',
+        user: loadingState,
+      };
+    case 'GET_USER_SUCCESS':
+      return {
+        ...state,
+        user: success(action.data),
+      };
+    case 'GET_USER_ERROR':
+      return {
+        ...state,
+        user: error(action.error),
       };
     default:
-      throw new Error('Unhandled action');
+      throw new Error(`Unhanded action type`);
   }
 };
 
-export const AuthContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const [user, dispatch] = useReducer(authReducer, {
-    isLoggedIn: false,
-    id: '',
-    name: '',
-  });
+const UserStateContext = createContext(null);
+const UserDispatchContext = createContext(null);
+
+export const UserProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(userReducer, initialState);
 
   return (
-    <AuthDispatchContext.Provider value={dispatch}>
-      <AuthContext.Provider value={user}>{children}</AuthContext.Provider>
-    </AuthDispatchContext.Provider>
+    <UserStateContext.Provider value={state}>
+      <UserDispatchContext.Provider value={dispatch}>
+        {children}
+      </UserDispatchContext.Provider>
+    </UserStateContext.Provider>
   );
 };
 
-export const useAuthState = (): User => {
-  const state = useContext(AuthContext);
+export const useUserState = () => {
+  const state = useContext(UserStateContext);
 
   if (!state) {
-    throw new Error('AuthProvider not found');
+    throw new Error('Cannot find UsersProvider');
   }
 
   return state;
 };
 
-export const useAuthDispatch = (): AuthDispatch => {
-  const dispatch = useContext(AuthDispatchContext);
+export const useUserDispatch = () => {
+  const dispatch = useContext(UserDispatchContext);
 
   if (!dispatch) {
-    throw new Error('AuthProvider not found');
+    throw new Error('Cannot find UsersProvider');
   }
 
   return dispatch;
+};
+
+export const getUser = async (dispatch, accessToken) => {
+  dispatch({ type: 'GET_USER' });
+
+  try {
+    // @todo jwt token 헤더에 담아서 보내기
+    const response = await fetch(`/api/auth/${accessToken}`);
+    const responseJSON = await response.json();
+
+    dispatch({ type: 'GET_USER_SUCCESS', data: responseJSON.data });
+  } catch (error) {
+    dispatch({ type: 'GET_USER_ERROR', error });
+  }
 };

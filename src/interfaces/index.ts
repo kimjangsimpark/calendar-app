@@ -5,7 +5,7 @@
 // import { User } from 'path/to/interfaces';
 
 export type User = {
-  isLoggedIn: boolean;
   id?: string;
   name?: string;
+  accessToken?: string;
 };

@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
-import { User } from '@/interfaces';
-import { useAuthState } from '@/contexts/auth.context';
+import { useUserState } from '@/contexts/auth.context';
 
 import headerStyles from '@/styles/header.module.scss';
 
@@ -11,7 +10,9 @@ type Props = {
 };
 
 const Layout = ({ children, title = 'This is the default title' }: Props) => {
-  const authState: User = useAuthState();
+  const state = useUserState();
+
+  console.log('state', state);
 
   return (
     <div>
@@ -22,7 +23,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
       </Head>
       <header className={headerStyles.mainHeader}>
         <aside className={headerStyles.headerToolbar}>
-          {authState.isLoggedIn ? (
+          {state.user.data !== null ? (
             // @todo 달력 컨트롤 툴바
             <>
               <div className={headerStyles.yearMonthWrapper}>
