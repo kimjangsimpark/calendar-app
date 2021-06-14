@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useAuthState, useAuthDispatch } from '@/contexts/auth.context';
-import { User } from '@/interfaces';
 import loginStyle from '@/styles/login.module.scss';
 
 const LoginPage = () => {
-  const router = useRouter();
-  const authState: User = useAuthState();
-  const authDispatch = useAuthDispatch();
   const [loginForm, setLoginForm] = useState({
     id: '',
     password: '',
@@ -27,20 +21,18 @@ const LoginPage = () => {
     setLoginForm(nextForm);
   };
 
-  const handleLoginFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLoginButtonClick = (event: React.MouseEvent) => {
     event.preventDefault();
-    authDispatch({
-      type: 'LOGIN',
-      id,
-      password,
-    });
-  };
-
-  useEffect(() => {
-    if (authState.isLoggedIn) {
-      router.push('/');
+    if (loginForm.id.length <= 0) {
+      alert('아이디를 입력해주세요');
+      return;
     }
-  }, [authState]);
+
+    if (loginForm.password.length <= 0) {
+      alert('비밀번호를 입력해주세요');
+      return;
+    }
+  };
 
   return (
     <Layout title="calendar - 로그인">
@@ -52,7 +44,7 @@ const LoginPage = () => {
             <p>로그인을 부탁드려요!</p>
           </div>
         </article>
-        <form onSubmit={handleLoginFormSubmit} className={loginStyle.loginForm}>
+        <form className={loginStyle.loginForm}>
           <input
             className={loginStyle.input}
             type="text"
@@ -71,7 +63,12 @@ const LoginPage = () => {
             value={password}
             onChange={handleChange}
           />
-          <button className={loginStyle.loginButton}>Login</button>
+          <button
+            onClick={handleLoginButtonClick}
+            className={loginStyle.loginButton}
+          >
+            Login
+          </button>
         </form>
         <Link href="/signup">
           <a className={loginStyle.signupLink}>Sign up</a>
