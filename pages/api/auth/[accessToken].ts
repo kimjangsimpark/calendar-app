@@ -29,6 +29,8 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       (user) => user.accessToken === accessToken,
     );
 
+    delete findResult.password;
+
     if (findResult) {
       res.status(200).json({
         data: findResult,
