@@ -1,4 +1,23 @@
-import { createContext, useReducer, useContext } from 'react';
+import React, { Dispatch, createContext, useReducer, useContext } from 'react';
+import { User } from '@/interfaces/index';
+
+type State = {
+  user: {
+    loading: boolean;
+    data: User | null;
+    error: any;
+  };
+};
+
+type Action =
+  | { type: 'GET_USER' }
+  | { type: 'GET_USER_SUCCESS'; data: User }
+  | { type: 'GET_USER_ERROR'; error?: any };
+
+type UserDispatch = Dispatch<Action>;
+
+const UserStateContext = createContext<State | null>(null);
+const UserDispatchContext = createContext<UserDispatch | null>(null);
 
 // context 에서 사용 할 기본 상태
 const initialState = {
@@ -15,19 +34,19 @@ const loadingState = {
   error: null,
 };
 // 성공했을 때의 상태 만들어주는 함수
-const success = (data) => ({
+const success = (data: User) => ({
   loading: false,
   data,
   error: null,
 });
 // 실패했을 때의 상태 만들어주는 함수
-const error = (error) => ({
+const error = (error: any) => ({
   loading: false,
   data: null,
   error: error,
 });
 
-const userReducer = (state, action) => {
+const userReducer = (state: State, action: Action) => {
   console.log('action type', action.type);
   switch (action.type) {
     case 'GET_USER':
@@ -50,10 +69,7 @@ const userReducer = (state, action) => {
   }
 };
 
-const UserStateContext = createContext(null);
-const UserDispatchContext = createContext(null);
-
-export const UserProvider = ({ children }) => {
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(userReducer, initialState);
 
   return (
@@ -85,7 +101,7 @@ export const useUserDispatch = () => {
   return dispatch;
 };
 
-export const getUser = async (dispatch, accessToken) => {
+export const getUser = async (dispatch: UserDispatch, accessToken: string) => {
   dispatch({ type: 'GET_USER' });
 
   try {
