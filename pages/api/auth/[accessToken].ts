@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 const dummyUserData = [
   {
     id: 'test',
-    password: '1234',
+    password: '1234q',
     name: '심익현',
     accessToken: 'aaa.bbb.ccc1',
   },

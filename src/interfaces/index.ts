@@ -9,3 +9,13 @@ export type User = {
   name?: string;
   accessToken?: string;
 };
+
+export type LoginData = {
+  accessToken: string;
+};
+
+export type LoginRequest = {
+  data: null | LoginData;
+  success: boolean;
+  message: string;
+};
