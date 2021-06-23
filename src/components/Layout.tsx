@@ -30,7 +30,8 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
       return;
     }
 
-    getUser(dispatch, accessToken);
+    // getUser(dispatch, accessToken);
+    getUser(dispatch);
   }, [dispatch]);
 
   const { data: user, loading, error } = state.user;

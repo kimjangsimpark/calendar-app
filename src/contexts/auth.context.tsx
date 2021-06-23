@@ -101,12 +101,12 @@ export const useUserDispatch = () => {
   return dispatch;
 };
 
-export const getUser = async (dispatch: UserDispatch, accessToken: string) => {
+export const getUser = async (dispatch: UserDispatch) => {
   dispatch({ type: 'GET_USER' });
 
   try {
     // @todo jwt token 헤더에 담아서 보내기
-    const response = await fetch(`/api/auth/${accessToken}`);
+    const response = await fetch(`/api/user`);
     const responseJSON = await response.json();
 
     dispatch({ type: 'GET_USER_SUCCESS', data: responseJSON.data });
