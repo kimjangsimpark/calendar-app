@@ -1,14 +1,26 @@
 import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
+import { useLoadingDispatch } from '@/contexts/loading.context';
 
 const IndexPage = () => {
   const router = useRouter();
+  const loadingDispatch = useLoadingDispatch();
 
   const handleLogoutButtonClick = () => {
     localStorage.removeItem('accessToken');
 
     router.reload();
   };
+
+  const loadingTest = () => {
+    loadingDispatch({ type: 'LOADING_START' });
+
+    const timeoutRef = setTimeout(() => {
+      loadingDispatch({ type: 'LOADING_END' });
+      clearTimeout(timeoutRef);
+    }, 2000);
+  };
+
   return (
     <Layout title="Home | KJSP Calendar">
       <main>
@@ -18,6 +30,9 @@ const IndexPage = () => {
         <hr />
         <br />
         <button onClick={handleLogoutButtonClick}>LOGOUT</button>
+        <br />
+        <br />
+        <button onClick={loadingTest}>Loaidng Start</button>
       </main>
     </Layout>
   );

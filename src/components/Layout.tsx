@@ -6,8 +6,10 @@ import {
   useUserDispatch,
   getUser,
 } from '@/contexts/auth.context';
+import { useLoadingState } from '@/contexts/loading.context';
 
 import headerStyles from '@/styles/header.module.scss';
+import Loading from './Loading';
 
 type Props = {
   children?: ReactNode;
@@ -17,13 +19,12 @@ type Props = {
 const Layout = ({ children, title = 'This is the default title' }: Props) => {
   const state = useUserState();
   const dispatch = useUserDispatch();
+  const loadingState = useLoadingState();
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
 
     if (accessToken === null) {
-      console.log('router.pathname', Router.pathname);
-
       if (Router.pathname !== '/login') {
         Router.push('/login');
       }
@@ -37,7 +38,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
   const { data: user, loading, error } = state.user;
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {
@@ -63,7 +64,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
               <div>{user.name}님 환영이요</div>
               <div className={headerStyles.yearMonthWrapper}>
                 <div>2021</div>
-                <div>06</div>
+                <div>07</div>
               </div>
               <div className={headerStyles.calendarControllerWrapper}>
                 <div>prev</div>
@@ -75,6 +76,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
         </aside>
       </header>
       {children}
+      {loadingState.isLoading ? <Loading /> : null}
     </div>
   );
 };
