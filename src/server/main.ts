@@ -1,17 +1,30 @@
+/* eslint-disable no-async-promise-executor */
 import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as http from 'http';
 import { NextApiHandler } from 'next';
 import { AppModule } from './app.module';
 
-export module Backend {
-  let app: INestApplication;
+let app: INestApplication;
+let appPromise: Promise<void>;
 
+export module Backend {
   export async function getApp() {
-    if (!app) {
-      app = await NestFactory.create(AppModule, { bodyParser: false });
-      await app.init();
+    if (app) {
+      return app;
     }
+    if (!appPromise) {
+      appPromise = new Promise(async (resolve) => {
+        const appInCreation = await NestFactory.create(AppModule, {
+          bodyParser: false,
+        });
+        await appInCreation.init();
+        app = appInCreation;
+        resolve();
+      });
+    }
+
+    await appPromise;
     return app;
   }
 
