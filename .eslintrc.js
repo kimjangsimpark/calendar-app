@@ -14,31 +14,18 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'prettier',
-    'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
-    'plugin:@typescript-eslint/recommended',
   ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint'],
   rules: {
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
-    '@typscript-eslint/explicit-function-return-type': [
-      'warn',
-      {
-        allowExpressions: true,
-        allowConciseArrowFunctionExpressionsStartingWithVoid: true,
-      },
-    ],
-    'prettier/prettier': ['error', {}, { usePrettierrc: true }],
   },
   ignorePatterns: ['dist/', 'node_modules/'],
   settings: {
