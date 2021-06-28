@@ -10,8 +10,17 @@ export class AppController {
     return JSON.stringify({
       data: {
         accessToken:
-          'tokentokentokentokentokentokentokentokentokentokentokentoken',
+          'aaa.bbb.ccc1',
       },
     });
+  }
+  @Get('user')
+  getUser(): string {
+    return JSON.stringify({
+      data: {
+        name: '심익현',
+        id: 'test',
+      }
+    })
   }
 }
