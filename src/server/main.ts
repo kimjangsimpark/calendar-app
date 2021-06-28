@@ -23,7 +23,6 @@ export module Backend {
         resolve();
       });
     }
-
     await appPromise;
     return app;
   }
