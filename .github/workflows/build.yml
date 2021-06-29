@@ -33,20 +33,10 @@ jobs:
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
 
-      - name: Generate SSH Key
-        run: |
-          cat >> id_rsa <<EOL
-          ${{ secrets.SSH_PRIVATE_KEY }}
-          EOL
-
-      - name: Set SSH Key Permission
-        run: chmod 600 id_rsa
-
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           port: ${{ secrets.DEPLOY_SSH_PORT }}
-          username: ${{ secrets.DEPLOY_USER }}
-          key: id_rsa
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/calendar-app:latest
