@@ -38,5 +38,6 @@ jobs:
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           port: ${{ secrets.DEPLOY_SSH_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/calendar-app:latest
