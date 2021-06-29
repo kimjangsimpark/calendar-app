@@ -49,4 +49,4 @@ jobs:
           port: ${{ secrets.DEPLOY_SSH_PORT }}
           username: ${{ secrets.DEPLOY_USER }}
           key: id_rsa
-          script: docker pull winetree94/calendar-app:latest
+          script: docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/calendar-app:latest
