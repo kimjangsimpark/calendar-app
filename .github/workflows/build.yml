@@ -40,4 +40,4 @@ jobs:
           port: ${{ secrets.DEPLOY_SSH_PORT }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/calendar-app:latest && (docker stop app || true && docker rm app || true | docker run -d -p 8080:8080 --name app winetree94/calendar-app:latest)
+          script: docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/calendar-app:latest && (docker stop app || true && docker rm app || true | docker run -d -p 8080:3000 --name app winetree94/calendar-app:latest)
