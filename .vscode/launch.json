@@ -5,14 +5,20 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "pwa-chrome",
+      "name": "Debug Server",
+      "command": "npm run dev",
       "request": "launch",
-      "name": "Launch Chrome",
+      "type": "node-terminal"
+    },
+    {
+      "name": "Debug Chrome Browser",
+      "request": "launch",
+      "type": "pwa-chrome",
       "url": "http://localhost:3000",
       "webRoot": "${workspaceFolder}"
     },
     {
-      "name": "Launch Edge",
+      "name": "Debug Edge Browser",
       "request": "launch",
       "type": "pwa-msedge",
       "url": "http://localhost:3000",
