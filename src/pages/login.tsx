@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import loginStyle from '@/styles/login.module.scss';
+import accountStyle from '@/styles/account.module.scss';
 import { LoginRequest } from '@/interfaces';
 import Router from 'next/router';
 
@@ -90,42 +90,52 @@ const LoginPage = () => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <section className={loginStyle.loginContainer}>
+      <section className={accountStyle.accountContainer}>
         <article>
-          <h2 className={loginStyle.title}>로그인</h2>
-          <div className={loginStyle.welcomeMessageWrapper}>
+          <h2 className={accountStyle.title}>로그인</h2>
+          <div className={accountStyle.welcomeMessageWrapper}>
             <p>환영합니다.</p>
             <p>로그인을 부탁드려요!</p>
           </div>
         </article>
-        <form className={loginStyle.loginForm}>
-          <input
-            className={loginStyle.input}
-            type="text"
-            name="id"
-            id="id"
-            placeholder="ID (email)"
-            value={id}
-            onChange={handleChange}
-          />
-          <input
-            className={loginStyle.input}
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            value={password}
-            onChange={handleChange}
-          />
+        <form className={accountStyle.accountForm}>
+          <div className={accountStyle.inputWrapper}>
+            <input
+              className={accountStyle.input}
+              type="email"
+              name="id"
+              id="id"
+              placeholder=" "
+              value={id}
+              onChange={handleChange}
+            />
+            <label htmlFor="id" className={accountStyle.label}>
+              아이디
+            </label>
+          </div>
+          <div className={accountStyle.inputWrapper}>
+            <input
+              className={accountStyle.input}
+              type="password"
+              name="password"
+              id="password"
+              placeholder=" "
+              value={password}
+              onChange={handleChange}
+            />
+            <label htmlFor="password" className={accountStyle.label}>
+              비밀번호
+            </label>
+          </div>
           <button
             onClick={handleLoginButtonClick}
-            className={loginStyle.loginButton}
+            className={accountStyle.submitButton}
           >
-            Login
+            로그인
           </button>
         </form>
         <Link href="/signup">
-          <a className={loginStyle.signupLink}>Sign up</a>
+          <a className={accountStyle.link}>회원가입</a>
         </Link>
       </section>
     </>
