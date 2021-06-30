@@ -1,5 +1,7 @@
 FROM node:10-alpine
 
+RUN apk add --no-cache libc6-compat
+
 RUN mkdir /workspace
 WORKDIR /workspace
 COPY . ./
