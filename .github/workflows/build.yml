@@ -43,4 +43,4 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: FOO
-          script: echo $FOO && docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/calendar-app:latest && cd /workspaces/calendar-app && docker-compose up -d
+          script: docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/calendar-app:latest && cd /workspaces/calendar-app && git pull && docker-compose up -d
