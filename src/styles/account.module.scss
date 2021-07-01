@@ -62,6 +62,9 @@
     align-items: center;
     font-size: 0.875rem;
     color: $gray-500;
+    transition-property: font-size, transform;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
   }
 
   .input {
