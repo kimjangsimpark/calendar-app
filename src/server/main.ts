@@ -2,6 +2,7 @@
 import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as http from 'http';
+import * as https from 'https';
 import { NextApiHandler } from 'next';
 import { AppModule } from './app.module';
 
@@ -29,7 +30,7 @@ export module Backend {
 
   export async function getListener() {
     const app = await getApp();
-    const server: http.Server = app.getHttpServer();
+    const server: https.Server = app.getHttpServer();
     const [listener] = server.listeners('request') as NextApiHandler[];
     return listener;
   }
