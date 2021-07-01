@@ -1,0 +1,7 @@
+version: '3.9'
+services:
+  calendar-app:
+    image: winetree94/calendar-app
+    restart: unless-stopped
+    ports:
+      - '8080:3000'
