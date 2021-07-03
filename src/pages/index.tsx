@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout';
+import 'kjsp-calendar-core';
 import { useRouter } from 'next/router';
 import { useLoadingDispatch } from '@/contexts/loading.context';
 
@@ -21,10 +22,14 @@ const IndexPage = () => {
     }, 2000);
   };
 
+  // @ts-ignore
   return (
-    <Layout title="Home | KJSP Calendar">
+    <Layout title='Home | KJSP Calendar'>
       <main>
         <h1>달력이 들어갈 자리</h1>
+        <div style={{ height: '500px', width: '500px' }}>
+          <kjsp-index />
+        </div>
         <h2>로그인한 사용자만 볼 수 있는 화면이다.</h2>
         <br />
         <hr />
