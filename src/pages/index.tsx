@@ -3,7 +3,7 @@ import Calendar from '@/components/Calendar';
 
 import { useRouter } from 'next/router';
 import { useLoadingDispatch } from '@/contexts/loading.context';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 
 const IndexPage = () => {
   const router = useRouter();
