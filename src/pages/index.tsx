@@ -24,21 +24,11 @@ const IndexPage = () => {
     }, 2000);
   };
 
-  // @ts-ignore
   return (
-    <Layout title='Home | KJSP Calendar'>
-      <main>
-        <h1>달력이 들어갈 자리</h1>
-        <Calendar width={500} height={500}/>
-        <h2>로그인한 사용자만 볼 수 있는 화면이다.</h2>
-        <br />
-        <hr />
-        <br />
-        <button onClick={handleLogoutButtonClick}>LOGOUT</button>
-        <br />
-        <br />
-        <button onClick={loadingTest}>Loaidng Start</button>
-      </main>
+    <Layout title="Home | KJSP Calendar">
+      <Calendar />
+      <button onClick={handleLogoutButtonClick}>LOGOUT</button>
+      <button onClick={loadingTest}>Loaidng Start</button>
     </Layout>
   );
 };
