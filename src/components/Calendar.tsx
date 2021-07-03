@@ -1,15 +1,5 @@
-import { useEffect } from 'react';
-/* eslint-disable no-unused-vars */
 import IndexComponent from 'kjsp-calendar-core';
-
-/* eslint-disable no-unused-vars */
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'kjsp-index': IndexComponent;
-    }
-  }
-}
+import { useEffect, useRef } from 'react';
 
 interface PropTypes {
   width: number;
@@ -17,8 +7,11 @@ interface PropTypes {
 }
 
 const Calendar = ({ width, height }: PropTypes) => {
+  const inputEl = useRef<IndexComponent>(null);
+
   useEffect(() => {
     require('kjsp-calendar-core');
+    console.log(inputEl);
   }, []);
 
   const calendarWrapperStyle = {
@@ -28,7 +21,7 @@ const Calendar = ({ width, height }: PropTypes) => {
 
   return (
     <div style={calendarWrapperStyle}>
-      <kjsp-index />
+      <kjsp-index ref={inputEl} />
     </div>
   );
 };
