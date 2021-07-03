@@ -1,9 +1,13 @@
 import Layout from '@/components/Layout';
-import 'kjsp-calendar-core';
 import { useRouter } from 'next/router';
 import { useLoadingDispatch } from '@/contexts/loading.context';
+import { useEffect } from 'react';
 
 const IndexPage = () => {
+  useEffect(() => {
+    require('kjsp-calendar-core');
+  });
+
   const router = useRouter();
   const loadingDispatch = useLoadingDispatch();
 
