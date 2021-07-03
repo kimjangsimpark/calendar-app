@@ -1,29 +1,16 @@
 import IndexComponent from 'kjsp-calendar-core';
 import { useEffect, useRef } from 'react';
 
-interface PropTypes {
-  width: number;
-  height: number;
-}
+interface PropTypes {}
 
-const Calendar = ({ width, height }: PropTypes) => {
+const Calendar = (props: PropTypes) => {
   const inputEl = useRef<IndexComponent>(null);
 
   useEffect(() => {
     require('kjsp-calendar-core');
-    console.log(inputEl);
   }, []);
 
-  const calendarWrapperStyle = {
-    width: `${width}px`,
-    height: `${height}px`,
-  };
-
-  return (
-    <div style={calendarWrapperStyle}>
-      <kjsp-index ref={inputEl} />
-    </div>
-  );
+  return <kjsp-index ref={inputEl} />;
 };
 
 export default Calendar;

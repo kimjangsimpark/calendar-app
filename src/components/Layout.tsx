@@ -8,6 +8,7 @@ import {
 } from '@/contexts/auth.context';
 import { useLoadingState } from '@/contexts/loading.context';
 
+import pageStyles from '@/styles/page.module.scss';
 import headerStyles from '@/styles/header.module.scss';
 import Loading from './Loading';
 
@@ -50,7 +51,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
   }
 
   return (
-    <div>
+    <div className={pageStyles.body}>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
