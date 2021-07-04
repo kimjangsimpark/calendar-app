@@ -18,16 +18,24 @@ export class UsersService {
     return this.usersRepository.findOne({email :email});
   }
 
-  async saveUser(user: User): Promise<void> {
-    try {
+  async saveUser(user: User): Promise<any> {
+    try{
       await this.usersRepository.save(this.usersRepository.create(user));
-      } catch(e){
-        console.error(e);
-      }
+    } catch(e){
+      console.log(e);
+      return null;
+    }
+    return true;
     }
     
-  async deleteUser(email: string): Promise<void> {
-     await this.usersRepository.delete({ email: email });
+  async deleteUser(email: string): Promise<any> {
+    try {
+      await this.usersRepository.delete({ email: email });
+    } catch(e){
+      console.log(e);
+      return null;
+    } 
+    return true;
   }
 
 }

@@ -24,19 +24,40 @@ export class AppController {
   }
 
   @Post('user/save')
-  async saveUser(@Body() user: User): Promise<string> {
-    await this.userService.saveUser(user);
+  async saveUser(@Body() user: User): Promise<Object> {
+  const duplicateUser = await this.userService.findOne(user.email);
+  if(duplicateUser != null){
+    return {
+      "status" : "overlap"
+    }
+  }
+
+  const result = await this.userService.saveUser(user);
+  if(result == null){
+    return {
+      "status" : "error"
+    };
+  }
     return Object.assign({
-      data: { ...user },
       statusCode: 201,
       statusMsg: `saved successfully`,
     });
   }
-  @Delete('user/delete')
-  async deleteUser(@Param('userId') id: string): Promise<string> {
-    await this.userService.deleteUser(id);
+
+  @Post('user/delete')
+  async deleteUser(@Body() user: User): Promise<Object> {
+    const findUser = this.userService.findOne(user.email);
+    if(findUser == null) return {"status" : "error"};
+
+    const result = await this.userService.deleteUser(user.email);
+    if(result == null){
+      return {
+        "status" : "deleteError"
+      }
+    }
+
     return Object.assign({
-      data: { userId: id },
+      data: { userEmail: user.email },
       statusCode: 201,
       statusMsg: `deleted successfully`,
     });
