@@ -13,6 +13,8 @@
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "^7.6.15",
     "@nestjs/typeorm": "^7.1.5",
+    "@types/bcrypt": "^5.0.0",
+    "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
     "kjsp-calendar-core": "^1.0.10",
     "mysql2": "^2.2.5",
