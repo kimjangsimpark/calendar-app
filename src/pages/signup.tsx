@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import Router from 'next/router';
 import accountStyle from '@/styles/account.module.scss';
 
 const SignupPage = () => {
   const [signupForm, setSignupForm] = useState({
-    id: '',
+    email: '',
     password: '',
     passwordConfirm: '',
     name: '',
@@ -22,9 +23,38 @@ const SignupPage = () => {
     setSignupForm(nextForm);
   };
 
-  const printFormData = (event: React.MouseEvent) => {
+  const signup = async () => {
+    const signupURL = '/api/user/save';
+    const stringifyRequestBody = JSON.stringify({
+      email: signupForm.email,
+      password: signupForm.password,
+      name: signupForm.name,
+    });
+    const fetchOptions = {
+      method: 'POST',
+      body: stringifyRequestBody,
+    };
+
+    const signupResponse = await fetch(signupURL, fetchOptions);
+    // const signupResponseJSON = await signupResponse.json();
+
+    if (signupResponse.ok) {
+      alert(`${signupForm.name}님 환영합니다! 로그인을 부탁드려요.`);
+      Router.push('/login');
+    } else if (signupResponse.status === 400) {
+      // @todo 중복이메일 스테이터스 코드 처리 혹은 다른 오류 처리 백엔드와 논의 필요
+      console.error('회원가입 요청 오류');
+    } else {
+      console.error('알 수 없는 오류!');
+    }
+  };
+
+  const handleSubmitButtonClick = (event: React.MouseEvent) => {
     event.preventDefault();
     console.log('formdata', signupForm);
+
+    // @todo validate input
+    signup();
   };
 
   return (
@@ -48,13 +78,13 @@ const SignupPage = () => {
               className={accountStyle.input}
               autoComplete="off"
               type="email"
-              name="id"
-              id="id"
+              name="email"
+              id="email"
               placeholder=" "
               onChange={handleChange}
-              value={signupForm.id}
+              value={signupForm.email}
             />
-            <label htmlFor="id" className={accountStyle.label}>
+            <label htmlFor="email" className={accountStyle.label}>
               이메일
             </label>
           </div>
@@ -100,7 +130,10 @@ const SignupPage = () => {
               이름
             </label>
           </div>
-          <button className={accountStyle.submitButton} onClick={printFormData}>
+          <button
+            className={accountStyle.submitButton}
+            onClick={handleSubmitButtonClick}
+          >
             회원가입
           </button>
           <Link href="/login">
