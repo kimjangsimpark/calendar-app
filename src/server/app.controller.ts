@@ -4,12 +4,15 @@ import { LocalAuthGuard } from './auth/local-auth.guard';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { UsersService } from './users/users.service';
 import { User } from './users/user.entity';
+import { ScheduleService } from './users/schedule.service';
+import { Schedule } from './users/schedule.entity';
 
 @Controller('api')
 export class AppController {
   constructor(
     private authService: AuthService,
-    private userService: UsersService){}
+    private userService: UsersService,
+    private scheduleService: ScheduleService){}
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
@@ -58,6 +61,39 @@ export class AppController {
 
     return Object.assign({
       data: { userEmail: user.email },
+      statusCode: 201,
+      statusMsg: `deleted successfully`,
+    });
+  }
+
+  @Post('schedule/save')
+  async saveSchedule(@Body() schedule: Schedule): Promise<Object> {
+  const result = await this.scheduleService.saveSchedule(schedule);
+  if(result == null){
+    return {
+      "status" : "error"
+    };
+  }
+    return Object.assign({
+      statusCode: 201,
+      statusMsg: `saved successfully`,
+    });
+  }
+
+  @Post('schedule/delete')
+  async deleteSchedule(@Body() schedule: Schedule): Promise<Object> {
+    const validate = this.scheduleService.findOne(schedule.id);
+    if(validate == null) return {"status" : "error"};
+
+    const result = await this.userService.deleteUser(schedule.id);
+    if(result == null){
+      return {
+        "status" : "deleteError"
+      }
+    }
+
+    return Object.assign({
+      data: { scheduleId: schedule.id },
       statusCode: 201,
       statusMsg: `deleted successfully`,
     });

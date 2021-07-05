@@ -1,20 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, BeforeInsert } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, BeforeInsert, ManyToOne, OneToMany } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
+import { Schedule } from './schedule.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn()
   id: string;
 
-  @PrimaryColumn("varchar", { length: 30 })
+  @PrimaryColumn("varchar", { length: 30 , nullable: false},)
   email: string;
   
-  @Column("varchar", { length: 200 })
+  @Column("varchar", { length: 200 , nullable: false })
   password: string;
 
-  @Column("varchar", { length: 20 })
+  @Column("varchar", { length: 20 , nullable: false })
   name: string;
+
+  @OneToMany(type => Schedule, schedule => schedule.user)
+  schedule : Schedule[];
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {
