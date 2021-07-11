@@ -6,57 +6,71 @@ import { NextPage } from 'next';
 import accountStyle from '@client/styles/account.module.scss';
 
 const SignupPage: NextPage = () => {
-  const [signupForm, setSignupForm] = React.useState({
-    email: '',
-    password: '',
-    passwordConfirm: '',
-    name: '',
-  });
+  const [email, setEmail] = React.useState<string>('a@b.c');
+  const [password, setPassword] = React.useState<string>('ab');
+  const [passwordConfirm, setPasswordConfirm] = React.useState<string>('ab');
+  const [name, setName] = React.useState<string>('ab');
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  async function onSignUpButtonClicked(e: React.MouseEvent): Promise<void> {
+    e.preventDefault();
+    e.stopPropagation();
 
-    const nextForm = {
-      ...signupForm,
-      [name]: value,
-    };
-
-    setSignupForm(nextForm);
-  };
-
-  const signup = async () => {
-    const signupURL = '/api/user/save';
-    const stringifyRequestBody = JSON.stringify({
-      email: signupForm.email,
-      password: signupForm.password,
-      name: signupForm.name,
-    });
-    const fetchOptions = {
-      method: 'POST',
-      body: stringifyRequestBody,
-    };
-
-    const signupResponse = await fetch(signupURL, fetchOptions);
-    // const signupResponseJSON = await signupResponse.json();
-
-    if (signupResponse.ok) {
-      alert(`${signupForm.name}님 환영합니다! 로그인을 부탁드려요.`);
-      Router.push('/login');
-    } else if (signupResponse.status === 400) {
-      // @todo 중복이메일 스테이터스 코드 처리 혹은 다른 오류 처리 백엔드와 논의 필요
-      console.error('회원가입 요청 오류');
-    } else {
-      console.error('알 수 없는 오류!');
+    if (!email) {
+      alert('이메일을 입력하세요.');
+      return;
     }
-  };
 
-  const handleSubmitButtonClick = (event: React.MouseEvent) => {
-    event.preventDefault();
-    console.log('formdata', signupForm);
+    if (!password) {
+      alert('비밀번호를 입력하세요.');
+      return;
+    }
 
-    // @todo validate input
-    signup();
-  };
+    if (!passwordConfirm) {
+      alert('비밀번호 확인을 입력해주세요.');
+      return;
+    }
+
+    if (!name) {
+      alert('이름을 입력해주세요.');
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      alert('비밀번호와 비밀번호 확인란이 서로 일치하지 않습니다.');
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/user/save`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+          name: name,
+        }),
+      });
+
+      console.log(response);
+
+      if (response.ok) {
+        alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+        Router.push('/login');
+        return;
+      } else if (response.status === 406) {
+        alert('중복된 계정입니다.');
+        return;
+      } else {
+        throw new Error('Unknown Error');
+      }
+    } catch (e) {
+      alert('서버 오류 발생');
+      console.error(e);
+      return;
+    }
+  }
 
   return (
     <>
@@ -82,8 +96,8 @@ const SignupPage: NextPage = () => {
               name="email"
               id="email"
               placeholder=" "
-              onChange={handleChange}
-              value={signupForm.email}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <label htmlFor="email" className={accountStyle.label}>
               이메일
@@ -96,8 +110,8 @@ const SignupPage: NextPage = () => {
               name="password"
               id="password"
               placeholder=" "
-              onChange={handleChange}
-              value={signupForm.password}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <label htmlFor="password" className={accountStyle.label}>
               비밀번호
@@ -110,8 +124,8 @@ const SignupPage: NextPage = () => {
               name="passwordConfirm"
               id="passwordConfirm"
               placeholder=" "
-              onChange={handleChange}
-              value={signupForm.passwordConfirm}
+              value={passwordConfirm}
+              onChange={(e) => setPasswordConfirm(e.target.value)}
             />
             <label htmlFor="passwordConfirm" className={accountStyle.label}>
               비밀번호 확인
@@ -124,8 +138,8 @@ const SignupPage: NextPage = () => {
               name="name"
               id="name"
               placeholder=" "
-              onChange={handleChange}
-              value={signupForm.name}
+              onChange={(e) => setName(e.target.value)}
+              value={name}
             />
             <label htmlFor="name" className={accountStyle.label}>
               이름
@@ -133,7 +147,7 @@ const SignupPage: NextPage = () => {
           </div>
           <button
             className={accountStyle.submitButton}
-            onClick={handleSubmitButtonClick}
+            onClick={onSignUpButtonClicked}
           >
             회원가입
           </button>

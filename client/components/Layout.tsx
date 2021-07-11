@@ -7,11 +7,8 @@ import {
   getUser,
 } from '@client/contexts/auth.context';
 import { useLoadingState } from '@client/contexts/loading.context';
-
-// import pageStyles from '@/styles/page.module.scss';
-// import headerStyles from '@/styles/header.module.scss';
-const pageStyles: any = {};
-const headerStyles: any = {};
+import pageStyles from '@client/styles/page.module.scss';
+import headerStyles from '@client/styles/header.module.scss';
 import Loading from './Loading';
 
 type Props = {
@@ -19,7 +16,10 @@ type Props = {
   title?: string;
 };
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => {
+export const Layout = ({
+  children,
+  title = 'This is the default title',
+}: Props) => {
   const state = useUserState();
   const dispatch = useUserDispatch();
   const loadingState = useLoadingState();
@@ -83,5 +83,3 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
     </div>
   );
 };
-
-export default Layout;

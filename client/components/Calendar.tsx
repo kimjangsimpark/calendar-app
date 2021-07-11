@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
 interface PropTypes {}
 
-const Calendar = (props: PropTypes) => {
+export const Calendar: React.FunctionComponent<PropTypes> = (props) => {
   const inputEl = useRef<IndexComponent>(null);
 
   useEffect(() => {
@@ -13,5 +13,3 @@ const Calendar = (props: PropTypes) => {
 
   return <kjsp-index ref={inputEl} />;
 };
-
-export default Calendar;

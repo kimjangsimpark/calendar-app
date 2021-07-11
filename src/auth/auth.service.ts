@@ -7,7 +7,7 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
@@ -18,11 +18,23 @@ export class AuthService {
     }
     return null;
   }
-  
-  async login(user: any) {
-    const payload = { email: user.email, password: user.password };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+
+  async generateAccessToken(email: string, password: string) {
+    const user = await this.usersService.findOne(email);
+
+    if (!user) {
+      throw new Error('No user found');
+    }
+
+    const matched = await bcrypt.compare(password, user.password);
+
+    if (!matched) {
+      throw new Error('password not matched');
+    }
+
+    return this.jwtService.sign({
+      email: user.email,
+      name: user.name,
+    });
   }
 }

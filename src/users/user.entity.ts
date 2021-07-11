@@ -13,10 +13,7 @@ import { Schedule } from './schedule.entity';
 
 @Entity()
 export class User {
-  @PrimaryColumn()
-  id: string;
-
-  @PrimaryColumn('varchar', { length: 30, nullable: false })
+  @PrimaryColumn('varchar', { length: 100, nullable: false })
   email: string;
 
   @Column('varchar', { length: 200, nullable: false })
@@ -25,16 +22,11 @@ export class User {
   @Column('varchar', { length: 20, nullable: false })
   name: string;
 
-  @OneToMany((type) => Schedule, (schedule) => schedule.user)
+  @OneToMany(() => Schedule, (schedule) => schedule.user)
   schedule: Schedule[];
 
   @BeforeInsert()
   async hashPassword(): Promise<void> {
-    try {
-      this.password = await bcrypt.hash(this.password, 10);
-    } catch (e) {
-      console.log(e);
-      throw new InternalServerErrorException();
-    }
+    this.password = await bcrypt.hash(this.password, 10);
   }
 }

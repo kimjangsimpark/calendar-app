@@ -3,9 +3,11 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
-  Request,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
@@ -15,6 +17,8 @@ import { UsersService } from './users/users.service';
 import { User } from './users/user.entity';
 import { ScheduleService } from './users/schedule.service';
 import { Schedule } from './users/schedule.entity';
+import { Request } from 'express';
+import { LoginData } from './interfaces';
 
 @Controller('api')
 export class AppController {
@@ -24,37 +28,46 @@ export class AppController {
     private readonly scheduleService: ScheduleService,
   ) {}
 
-  @Post('auth/login')
-  async login(@Request() req: any) {
-    return this.authService.login(req.body);
-  }
-
   @UseGuards(JwtAuthGuard)
   @Get('auth/profile')
-  getProfile(@Request() req: any) {
+  getProfile(@Req() req: any) {
     return req.user;
   }
 
+  @Post('auth/login')
+  async login(
+    @Req() request: Request<void, void, { email: string; password: string }>,
+  ): Promise<{ accessToken: string }> {
+    try {
+      const body = request.body;
+      const token = await this.authService.generateAccessToken(
+        body.email,
+        body.password,
+      );
+      return {
+        accessToken: token,
+      };
+    } catch (e) {
+      throw new HttpException('no matched user found', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
   @Post('user/save')
-  async saveUser(@Body() user: User): Promise<Object> {
-    const duplicateUser = await this.userService.findOne(user.email);
-    if (duplicateUser != null) {
-      return {
-        status: 'overlap',
-      };
+  async saveUser(
+    @Req()
+    request: Request<
+      void,
+      void,
+      { email: string; password: string; name: string }
+    >,
+  ): Promise<{ result: true }> {
+    try {
+      const body = request.body;
+      await this.userService.saveUser(body.email, body.password, body.name);
+      return { result: true };
+    } catch (e) {
+      throw new HttpException('User already exist', HttpStatus.NOT_ACCEPTABLE);
     }
-
-    const result = await this.userService.saveUser(user);
-    if (result == null) {
-      return {
-        status: 'error',
-      };
-    }
-
-    return Object.assign({
-      statusCode: 201,
-      statusMsg: `saved successfully`,
-    });
   }
 
   @Post('user/delete')

@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 export const jwtConstants = {
-  secret: process.env.KJSP_JWT_SECRET_KEY,
+  secret: process.env.KJSP_JWT_SECRET_KEY || 'test-jwt-token-secret',
 };

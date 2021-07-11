@@ -7,73 +7,49 @@ import Router from 'next/router';
 import { NextPage } from 'next';
 
 const LoginPage: NextPage = () => {
-  const [loginForm, setLoginForm] = useState({
-    id: '',
-    password: '',
-  });
-  const { id, password } = loginForm;
+  const [email, setEmail] = useState<string>('a@b.c');
+  const [password, setPassword] = useState<string>('ab');
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    const nextForm = {
-      ...loginForm,
-      [name]: value,
-    };
-
-    setLoginForm(nextForm);
-  };
-
-  const validateLoginInput = (): boolean => {
-    if (loginForm.id.length <= 0) {
-      alert('아이디를 입력해주세요');
-      return false;
-    }
-
-    if (loginForm.password.length <= 0) {
-      alert('비밀번호를 입력해주세요');
-      return false;
-    }
-
-    return true;
-  };
-
-  const login = async () => {
-    const stringifyRequestBody = JSON.stringify(loginForm);
-    const fetchOptions = {
-      method: 'POST',
-      body: stringifyRequestBody,
-      headers: {},
-    };
-
-    const fetchLoginAPIResult = await fetch('/api/auth/login', fetchOptions);
-    const fetchLoginAPIResultJSON: LoginRequest =
-      await fetchLoginAPIResult.json();
-
-    if (fetchLoginAPIResult.ok) {
-      localStorage.setItem(
-        'accessToken',
-        fetchLoginAPIResultJSON.accessToken,
-      );
-
-      Router.push('/');
-    } else if (fetchLoginAPIResult.status === 401) {
-      // 로그인 실패이유 알려주기
-      alert(fetchLoginAPIResultJSON.message);
-    } else {
-      // 서버오류
-      alert('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    }
-  };
-
-  const handleLoginButtonClick = (event: React.MouseEvent) => {
+  async function handleLoginButtonClick(
+    event: React.MouseEvent,
+  ): Promise<void> {
     event.preventDefault();
-    if (!validateLoginInput()) {
+    event.stopPropagation();
+
+    if (!email) {
+      alert('이메일을 입력하세요.');
       return;
     }
 
-    login();
-  };
+    if (!password) {
+      alert('비밀번호를 입력하세요.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+
+      if (response.ok) {
+        const body = (await response.json()) as { accessToken: string };
+        localStorage.setItem('accessToken', body.accessToken);
+        Router.push('/');
+      } else if (response.status === 401) {
+        alert('아이디 혹은 비밀번호가 올바르지 않습니다.');
+      }
+    } catch (e) {
+      alert('서버 오류 발생');
+      return;
+    }
+  }
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -104,11 +80,12 @@ const LoginPage: NextPage = () => {
             <input
               className={accountStyle.input}
               type="email"
-              name="id"
-              id="id"
+              name="email"
+              id="email"
               placeholder=" "
-              value={id}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
             <label htmlFor="id" className={accountStyle.label}>
               아이디
@@ -122,7 +99,8 @@ const LoginPage: NextPage = () => {
               id="password"
               placeholder=" "
               value={password}
-              onChange={handleChange}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
             <label htmlFor="password" className={accountStyle.label}>
               비밀번호

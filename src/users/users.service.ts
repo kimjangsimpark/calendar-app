@@ -4,6 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 
+export function uuidv4(): string {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c == 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -19,14 +27,20 @@ export class UsersService {
     return this.usersRepository.findOne({ email: email });
   }
 
-  async saveUser(user: User): Promise<any> {
-    try {
-      await this.usersRepository.save(this.usersRepository.create(user));
-    } catch (e) {
-      console.log(e);
-      return null;
+  async saveUser(email: string, password: string, name: string): Promise<any> {
+    const existUser = await this.usersRepository.findOne(email);
+
+    if (existUser) {
+      throw new Error('Already exist user');
     }
-    return true;
+
+    const entity = this.usersRepository.create({
+      email: email,
+      password: password,
+      name: name,
+    });
+
+    await this.usersRepository.save(entity);
   }
 
   async deleteUser(email: string): Promise<any> {

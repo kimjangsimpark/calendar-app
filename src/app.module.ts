@@ -11,8 +11,6 @@ import Next from 'next';
 import { RenderModule } from 'nest-next';
 import { AppTemplateController } from './app-template.controller';
 
-dotenv.config();
-
 @Module({
   imports: [
     RenderModule.forRootAsync(
@@ -37,4 +35,8 @@ dotenv.config();
   controllers: [AppController, AppTemplateController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  public constructor() {
+    dotenv.config();
+  }
+}
