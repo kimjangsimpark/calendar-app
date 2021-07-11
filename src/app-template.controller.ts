@@ -2,7 +2,8 @@ import { Controller, Get, Render } from '@nestjs/common';
 
 @Controller()
 export class AppTemplateController {
-  @Render('index')
+  @Get()
+  @Render('home')
   public index() {
     return {
       title: 'Next with Nest',

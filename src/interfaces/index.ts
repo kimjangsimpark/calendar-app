@@ -15,7 +15,7 @@ export type LoginData = {
 };
 
 export type LoginRequest = {
-  data: null | LoginData;
+  accessToken: string;
   success: boolean;
   message: string;
 };

@@ -24,7 +24,6 @@ export class AppController {
     private readonly scheduleService: ScheduleService,
   ) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req: any) {
     return this.authService.login(req.body);

@@ -53,7 +53,7 @@ const LoginPage: NextPage = () => {
     if (fetchLoginAPIResult.ok) {
       localStorage.setItem(
         'accessToken',
-        fetchLoginAPIResultJSON.data.accessToken,
+        fetchLoginAPIResultJSON.accessToken,
       );
 
       Router.push('/');
