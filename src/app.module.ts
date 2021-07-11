@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import { User } from './users/user.entity';
 import Next from 'next';
 import { RenderModule } from 'nest-next';
+import { AppTemplateController } from './app-template.controller';
 
 dotenv.config();
 
@@ -33,7 +34,7 @@ dotenv.config();
     AuthModule,
     UsersModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, AppTemplateController],
   providers: [AppService],
 })
 export class AppModule {}

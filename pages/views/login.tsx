@@ -46,7 +46,7 @@ const LoginPage: NextPage = () => {
       headers: {},
     };
 
-    const fetchLoginAPIResult = await fetch('/api/login', fetchOptions);
+    const fetchLoginAPIResult = await fetch('/api/auth/login', fetchOptions);
     const fetchLoginAPIResultJSON: LoginRequest =
       await fetchLoginAPIResult.json();
 

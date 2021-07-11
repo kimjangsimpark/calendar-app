@@ -106,7 +106,7 @@ export const getUser = async (dispatch: UserDispatch) => {
 
   try {
     // @todo jwt token 헤더에 담아서 보내기
-    const response = await fetch(`/api/user`);
+    const response = await fetch(`/api/auth/user`);
     const responseJSON = await response.json();
 
     dispatch({ type: 'GET_USER_SUCCESS', data: responseJSON.data });
