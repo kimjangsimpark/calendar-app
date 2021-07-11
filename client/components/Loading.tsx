@@ -1,4 +1,6 @@
-import loadingStyle from '@/styles/components/loading.module.scss';
+import * as React from 'react';
+// import loadingStyle from '@/styles/components/loading.module.scss';
+const loadingStyle: any = {};
 
 const Loading = () => {
   return (

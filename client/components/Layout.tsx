@@ -5,11 +5,13 @@ import {
   useUserState,
   useUserDispatch,
   getUser,
-} from '@/contexts/auth.context';
-import { useLoadingState } from '@/contexts/loading.context';
+} from '@client/contexts/auth.context';
+import { useLoadingState } from '@client/contexts/loading.context';
 
-import pageStyles from '@/styles/page.module.scss';
-import headerStyles from '@/styles/header.module.scss';
+// import pageStyles from '@/styles/page.module.scss';
+// import headerStyles from '@/styles/header.module.scss';
+const pageStyles: any = {};
+const headerStyles: any = {};
 import Loading from './Loading';
 
 type Props = {

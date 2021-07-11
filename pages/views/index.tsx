@@ -1,11 +1,11 @@
-import Layout from '@/components/Layout';
-import Calendar from '@/components/Calendar';
-
+import * as React from 'react';
+import { NextPage } from 'next';
+import Layout from '@client/components/Layout';
+import Calendar from '@client/components/Calendar';
 import { useRouter } from 'next/router';
-import { useLoadingDispatch } from '@/contexts/loading.context';
-import React from 'react';
+import { useLoadingDispatch } from '@client/contexts/loading.context';
 
-const IndexPage = () => {
+const IndexPage: NextPage = () => {
   const router = useRouter();
   const loadingDispatch = useLoadingDispatch();
 

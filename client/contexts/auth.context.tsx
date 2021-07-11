@@ -1,5 +1,5 @@
 import React, { Dispatch, createContext, useReducer, useContext } from 'react';
-import { User } from '@/interfaces/index';
+import { User } from '@src/interfaces/index';
 
 type State = {
   user: {

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import accountStyle from '@/styles/account.module.scss';
-import { LoginRequest } from '@/interfaces';
+import accountStyle from '@client/styles/account.module.scss';
+import { LoginRequest } from '@src/interfaces';
 import Router from 'next/router';
+import { NextPage } from 'next';
 
-const LoginPage = () => {
+const LoginPage: NextPage = () => {
   const [loginForm, setLoginForm] = useState({
     id: '',
     password: '',

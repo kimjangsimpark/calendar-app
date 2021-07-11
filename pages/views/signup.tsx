@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import * as React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
-import accountStyle from '@/styles/account.module.scss';
+import { NextPage } from 'next';
+import accountStyle from '@client/styles/account.module.scss';
 
-const SignupPage = () => {
-  const [signupForm, setSignupForm] = useState({
+const SignupPage: NextPage = () => {
+  const [signupForm, setSignupForm] = React.useState({
     email: '',
     password: '',
     passwordConfirm: '',

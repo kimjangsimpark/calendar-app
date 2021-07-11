@@ -1,21 +1,34 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
+    "module": "esnext",
+    "outDir": ".next",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "incremental": true,
+    "jsx": "preserve",
+    "paths": {
+      "@common/*": ["common/*"],
+      "@client/*": ["client/*"],
+      "@src/*": ["src/*"],
+      "@pages/*": ["pages/*"]
+    },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "experimentalDecorators": true,
     "esModuleInterop": true,
-    "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
+    "isolatedModules": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["common/**/*", "client/**/*", "pages/**/*", "src/**/*"],
   "exclude": ["node_modules"]
 }

@@ -1,3 +1,4 @@
+import * as React from 'react';
 import IndexComponent from 'kjsp-calendar-core';
 import { useEffect, useRef } from 'react';
 

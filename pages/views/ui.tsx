@@ -1,6 +1,7 @@
-import Loading from '@/components/Loading';
+import { NextPage } from 'next';
+import * as React from 'react';
 
-const Ui = () => {
+const Ui: NextPage = () => {
   return (
     <>
       <div>UI 테스트 페이지 입니다.</div>
@@ -11,7 +12,6 @@ const Ui = () => {
       >
         aaa
       </button>
-      <Loading />
     </>
   );
 };
