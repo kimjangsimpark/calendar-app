@@ -1,15 +1,12 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   PrimaryColumn,
   BeforeInsert,
-  ManyToOne,
   OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { InternalServerErrorException } from '@nestjs/common';
-import { Schedule } from './schedule.entity';
+import { Schedule } from '../schedule/schedule.entity';
 
 @Entity()
 export class User {

@@ -1,33 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../user/user.service';
-import { JwtService } from '@nestjs/jwt';
+import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(email: string, pass: string): Promise<any> {
-    const user = await this.usersService.findOne(email);
-    if (user && bcrypt.compare(user.password, pass)) {
-      const { password, ...result } = user;
-      return result;
-    }
-    return null;
-  }
-
   async generateAccessToken(email: string, password: string) {
-    const user = await this.usersService.findOne(email);
-
+    const user = await this.userService.findOne(email);
     if (!user) {
       throw new Error('No user found');
     }
 
     const matched = await bcrypt.compare(password, user.password);
-
     if (!matched) {
       throw new Error('password not matched');
     }
@@ -36,5 +25,14 @@ export class AuthService {
       email: user.email,
       name: user.name,
     });
+  }
+
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await this.userService.findOne(email);
+    if (user && user.password === password) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
   }
 }

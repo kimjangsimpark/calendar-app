@@ -1,15 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './user/user.module';
-import { Connection } from 'typeorm';
 import dotenv from 'dotenv';
-import { User } from './user/user.entity';
 import Next from 'next';
 import { RenderModule } from 'nest-next';
-import { AppTemplateController } from './app-template.controller';
+import { ScheduleModule } from './schedule/schedule.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,10 +26,9 @@ import { AppTemplateController } from './app-template.controller';
       synchronize: true,
     }),
     AuthModule,
-    UsersModule,
+    ScheduleModule,
   ],
-  controllers: [AppController, AppTemplateController],
-  providers: [AppService],
+  controllers: [AppController],
 })
 export class AppModule {
   public constructor() {
