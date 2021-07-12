@@ -13,10 +13,10 @@ import {
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
-import { UsersService } from './users/user.service';
-import { User } from './users/user.entity';
-import { ScheduleService } from './users/schedule.service';
-import { Schedule } from './users/schedule.entity';
+import { UsersService } from './user/user.service';
+import { User } from './user/user.entity';
+import { ScheduleService } from './user/schedule.service';
+import { Schedule } from './user/schedule.entity';
 import { Request } from 'express';
 import { LoginData } from './interfaces';
 
