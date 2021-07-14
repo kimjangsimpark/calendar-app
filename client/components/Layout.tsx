@@ -64,7 +64,6 @@ export const Layout = ({
           {user ? (
             // @todo 달력 컨트롤 툴바
             <>
-              <div>{user.name}님 환영이요</div>
               <div className={headerStyles.yearMonthWrapper}>
                 <div>2021</div>
                 <div>07</div>

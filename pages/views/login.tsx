@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import accountStyle from '@client/styles/account.module.scss';
-import { LoginRequest } from '@src/interfaces';
 import Router from 'next/router';
 import { NextPage } from 'next';
 

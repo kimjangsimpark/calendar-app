@@ -9,15 +9,8 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "incremental": true,
     "jsx": "preserve",
-    "paths": {
-      "@common/*": ["common/*"],
-      "@client/*": ["client/*"],
-      "@src/*": ["src/*"],
-      "@pages/*": ["pages/*"]
-    },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -30,5 +23,6 @@
     "isolatedModules": true
   },
   "include": ["common/**/*", "client/**/*", "pages/**/*", "src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "extends": "./tsconfig.paths.json"
 }

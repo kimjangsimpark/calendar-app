@@ -1,5 +1,5 @@
 import React, { Dispatch, createContext, useReducer, useContext } from 'react';
-import { User } from '@src/interfaces/index';
+import { User } from '@common/interfaces/index';
 
 type State = {
   user: {
@@ -105,8 +105,13 @@ export const getUser = async (dispatch: UserDispatch) => {
   dispatch({ type: 'GET_USER' });
 
   try {
-    // @todo jwt token 헤더에 담아서 보내기
-    const response = await fetch(`/api/auth/user`);
+    const requestOptions = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    };
+    const response = await fetch(`/api/auth/profile`, requestOptions);
     const responseJSON = await response.json();
 
     dispatch({ type: 'GET_USER_SUCCESS', data: responseJSON.data });

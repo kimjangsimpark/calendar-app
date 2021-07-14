@@ -6,7 +6,10 @@
       {
         "root": ["."],
         "alias": {
-          "@": "./src"
+          "@common": "./common",
+          "@client": "./client",
+          "@src": "./src",
+          "@pages": "./pages"
         }
       }
     ],
