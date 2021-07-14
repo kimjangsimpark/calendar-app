@@ -3,6 +3,13 @@
     "target": "esnext",
     "module": "esnext",
     "outDir": ".next",
+    "baseUrl": "./",
+    "paths": {
+      "@common/*": ["common/*"],
+      "@client/*": ["client/*"],
+      "@src/*": ["src/*"],
+      "@pages/*": ["pages/*"]
+    },
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -23,6 +30,5 @@
     "isolatedModules": true
   },
   "include": ["common/**/*", "client/**/*", "pages/**/*", "src/**/*"],
-  "exclude": ["node_modules"],
-  "extends": "./tsconfig.paths.json"
+  "exclude": ["node_modules"]
 }
