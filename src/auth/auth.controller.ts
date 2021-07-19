@@ -11,6 +11,7 @@ import { UserService } from '../user/user.service';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api')
 export class AuthController {
@@ -25,6 +26,7 @@ export class AuthController {
     return req.user;
   }
 
+  @UseGuards(AuthGuard('local'))
   @Post('auth/login')
   async login(
     @Req() request: Request<void, void, { email: string; password: string }>,
