@@ -114,7 +114,7 @@ export const getUser = async (dispatch: UserDispatch) => {
     const response = await fetch(`/api/auth/profile`, requestOptions);
     const responseJSON = await response.json();
 
-    dispatch({ type: 'GET_USER_SUCCESS', data: responseJSON.data });
+    dispatch({ type: 'GET_USER_SUCCESS', data: responseJSON });
   } catch (error) {
     dispatch({ type: 'GET_USER_ERROR', error });
   }
