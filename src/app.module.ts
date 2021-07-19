@@ -6,6 +6,7 @@ import Next from 'next';
 import { RenderModule } from 'nest-next';
 import { ScheduleModule } from './schedule/schedule.module';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
     }),
     AuthModule,
+    UserModule,
     ScheduleModule,
   ],
   controllers: [AppController],
